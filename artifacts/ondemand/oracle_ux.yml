@@ -1,0 +1,6 @@
+dashboard_title: "OCI -  Open OnDemand"
+dashboard_header_img_logo: "/public/header_logo.png"
+dashboard_logo: "/public/oci_logo.png"
+dashboard_logo_height: "150px"
+brand_bg_color: "#312d2b"
+custom_css_files: ["/oj-redwood-min.css"]
