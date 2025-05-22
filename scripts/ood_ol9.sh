@@ -31,6 +31,8 @@ sudo dnf install -y ondemand
 sudo dnf install httpd mod_auth_openidc -y
 # Required this configuration to work with OL9. Otheriwise you will see errors about curl not downloading the well-known config
 sudo setsebool -P httpd_can_network_connect 1
+sudo setsebool -P httpd_mod_auth_pam 1
+sudo setsebool -P httpd_read_user_content 1
 sudo systemctl enable httpd
 
 # Configure firewall
