@@ -35,55 +35,8 @@ sudo setsebool -P httpd_mod_auth_pam 1
 sudo setsebool -P httpd_read_user_content 1
 sudo setsebool -P httpd_run_stickshift 1
 sudo setsebool -P httpd_setrlimit 1
-FILENAME=~/oodpolicy
-sudo touch "$FILENAME.te"
-cat << EOF > "$$FILENAME.te"
-
-module mycustompolicy 1.0;
-
-require {
-	type var_t;
-	type rpcbind_var_run_t;
-	type httpd_t;
-	type pcp_var_run_t;
-	type setroubleshoot_var_run_t;
-	type irqbalance_var_run_t;
-	type fixed_disk_device_t;
-	type faillog_t;
-	type httpd_tmp_t;
-	type udev_var_run_t;
-	type user_home_dir_t;
-	type configfs_t;
-	type lsmd_var_run_t;
-	class dir { add_name create getattr write };
-	class fifo_file { create getattr ioctl open read setattr unlink write };
-	class blk_file getattr;
-	class sock_file getattr;
-}
-
-#============= httpd_t ==============
-allow httpd_t configfs_t:dir getattr;
-
-#!!!! This avc is allowed in the current policy
-allow httpd_t faillog_t:dir write;
-allow httpd_t fixed_disk_device_t:blk_file getattr;
-
-#!!!! This avc is allowed in the current policy
-allow httpd_t httpd_tmp_t:fifo_file create;
-allow httpd_t httpd_tmp_t:fifo_file { getattr ioctl open read setattr unlink write };
-allow httpd_t irqbalance_var_run_t:sock_file getattr;
-allow httpd_t lsmd_var_run_t:sock_file getattr;
-allow httpd_t pcp_var_run_t:sock_file getattr;
-allow httpd_t rpcbind_var_run_t:sock_file getattr;
-allow httpd_t setroubleshoot_var_run_t:sock_file getattr;
-allow httpd_t udev_var_run_t:sock_file getattr;
-allow httpd_t user_home_dir_t:dir { add_name create };
-allow httpd_t var_t:sock_file getattr;
-EOF
-
-sudo checkmodule -M -m -o "$FILENAME.mod" "$FILENAME.te"
-sudo semodule_package -o "$FILENAME.pp" -m "$FILENAME.mod"
-sudo semodule -i "$FILENAME.pp"
+# Setting SELinux to permissive mode
+sudo setenforce 0
 sudo systemctl enable httpd
 
 # Configure firewall
