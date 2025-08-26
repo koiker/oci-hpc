@@ -33,3 +33,6 @@ output "idcs_endpoint" {
 output "openid_configuration_url" {
   value = "${oci_identity_domain.idcs_domain.url}/.well-known/openid-configuration"
 }
+output "ood_dns" {
+  value = module.ood.ood_public_dns
+}

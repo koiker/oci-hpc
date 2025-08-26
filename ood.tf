@@ -76,4 +76,8 @@ data "oci_core_app_catalog_listing_resource_version" "ood_image" {
 output "ood_boostrap_cmd" {
   value = "sudo OOD_DNS=${local.ood_public_dns} OOD_USERNAME=${var.ood_username} CLIENT_ID=${oci_identity_domains_app.ood_app.name} CLIENT_SECRET=${oci_identity_domains_app.ood_app.client_secret} IDCS_URL=${oci_identity_domain.idcs_domain.url} ./ood.sh"
 }
+
+output "ood_public_dns" {
+  value = local.ood_public_dns
+}
 # Path: scripts/ood.sh
